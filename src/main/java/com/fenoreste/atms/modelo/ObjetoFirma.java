@@ -1,14 +1,12 @@
 package com.fenoreste.atms.modelo;
 
-import lombok.AllArgsConstructor;
+import java.io.Serializable;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class TxDeposito {
-
+public class ObjetoFirma implements Serializable{
+	
 	private String idCajero;
 	private String fechaHora;
 	private Integer tipoTX;
@@ -16,7 +14,11 @@ public class TxDeposito {
 	private String cuenta;
 	private Integer secuencia;
 	private Double montoIngresado;
-	private Double montoDeposito;
+	private Double montoDepositado;
 	private Double montoCambio;
-	private String firma;
+	private String secret;
+	
+	
+	private static final long serialVersionUID = 1L;
+
 }

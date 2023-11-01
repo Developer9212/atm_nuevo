@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan({"com.fenoreste.atms.controller",
 	 			"com.fenoreste.atms.service",
 	 			"com.fenoreste.atms.util",
-	 			})
+	 			"com.fenoreste.atms.security"})
 @EntityScan("com.fenoreste.atms.entity")
 @EnableJpaRepositories("com.fenoreste.atms.repository")
 public class AtmsApplication {

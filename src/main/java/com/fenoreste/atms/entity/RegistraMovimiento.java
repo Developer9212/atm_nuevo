@@ -8,38 +8,35 @@ package com.fenoreste.atms.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  *
  * @author wilmer
  */
 @Entity
-@Table(name = "bankingly_movimientos_ca")
-@Getter
-@Setter
+@Table(name = "cajero_receptor_movimientos_ca")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegistraMovimiento implements Serializable {
     @EmbeddedId
-    AuxiliarPK auxiliaresPK;        
+    private MovimientoPK pk;
+	@Column(name="idorigenp")
+	private Integer idorigenp;    
+	@Column(name="idproducto")
+	private Integer idproducto;
+	@Column(name = "idauxiliar")
+	private Integer idauxiliar;
     @Column(name = "fecha")
     private Timestamp fecha;
-    @Column(name = "idusuario")
-    private Integer idusuario;
-    @Column(name = "sesion")
-    private String sesion;
-    @Column(name = "referencia")
-    private String referencia;
     @Column(name = "idorigen")
     private Integer idorigen;
     @Column(name = "idgrupo")

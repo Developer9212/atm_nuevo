@@ -1,19 +1,19 @@
 package com.fenoreste.atms.service;
 
 import com.fenoreste.atms.entity.Tabla;
-import com.fenoreste.atms.entity.TablasPK;
-import com.fenoreste.atms.repository.TablaRepository;
+import com.fenoreste.atms.entity.TablaPK;
+import com.fenoreste.atms.repository.TablaDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TablasServiceImpl implements ITablasService{
+public class TablasServiceImpl implements ITablaService{
 
     @Autowired
-    TablaRepository tablaRepository;
+    TablaDao tablaRepository;
 
     @Override
-    public Tabla findById(TablasPK pk) {
+    public Tabla buscarPorId(TablaPK pk) {
         return tablaRepository.findById(pk).orElse(null);
     }
 }

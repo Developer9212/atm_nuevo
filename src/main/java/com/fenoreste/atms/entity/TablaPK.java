@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Embeddable
-public class TablasPK implements Serializable {
+public class TablaPK implements Serializable {
     @Column(name="idtabla")
     private String idtabla;
     @Column(name="idelemento")

@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import com.fenoreste.atms.modelo.ogsDTO;
 import com.fenoreste.atms.modelo.opaDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class HerramientasUtil {
 
 	public ogsDTO ogs(String customerId) {
@@ -19,19 +22,18 @@ public class HerramientasUtil {
 	public opaDTO opa(String productBankIdentifier) {
 		opaDTO opa = new opaDTO();
 		int count = 0;
-		for (int i = 0; i < productBankIdentifier.length(); i++) {
-			count = count + 1;
+		try {
+			for (int i = 0; i < productBankIdentifier.length(); i++) {
+				count = count + 1;
+			}
+			if (count == 19) {
+				opa.setIdorigenp(Integer.parseInt(productBankIdentifier.substring(0, 6)));
+				opa.setIdproducto(Integer.parseInt(productBankIdentifier.substring(6, 11)));
+				opa.setIdauxiliar(Integer.parseInt(productBankIdentifier.substring(11, 19)));
+			}	
+		} catch (Exception e) {
+			log.info(":::::::::::::Error al forma opa:::::::::::::::"+e.getMessage());
 		}
-		if (count == 18) {
-			opa.setIdorigenp(Integer.parseInt(productBankIdentifier.substring(0, 5)));
-			opa.setIdproducto(Integer.parseInt(productBankIdentifier.substring(5, 10)));
-			opa.setIdauxiliar(Integer.parseInt(productBankIdentifier.substring(10, 18)));
-		} else {
-			opa.setIdorigenp(Integer.parseInt(productBankIdentifier.substring(0, 6)));
-			opa.setIdproducto(Integer.parseInt(productBankIdentifier.substring(6, 11)));
-			opa.setIdauxiliar(Integer.parseInt(productBankIdentifier.substring(11, 19)));
-		}
-
 		return opa;
 	}
 

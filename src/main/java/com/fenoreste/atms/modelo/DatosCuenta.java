@@ -17,7 +17,7 @@ public class DatosCuenta {
 	private String DescripcionCuenta;
 	@JsonProperty("DetalleCuenta")
 	private String DetalleCuenta;
-	@JsonProperty("DefaultCuenta")
+	@JsonProperty("CuentaDefault")
 	private String DefaultCuenta;
 	@JsonProperty("DescripcionCuentaDefault")
 	private String DescripcionCuentaDefault;

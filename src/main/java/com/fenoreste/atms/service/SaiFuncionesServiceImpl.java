@@ -5,14 +5,14 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fenoreste.atms.repository.SaiFuncionesRepository;
+import com.fenoreste.atms.repository.SaiFuncionesDao;
 
 
 @Service
 public class SaiFuncionesServiceImpl implements ISaiFuncionesService{
 
 	@Autowired
-	SaiFuncionesRepository saiFuncionesDao;
+	SaiFuncionesDao saiFuncionesDao;
 	
 	@Override
 	public String sai_auxiliar(Integer idorigenp, Integer idproducto, Integer idauxiliar) {
@@ -35,8 +35,8 @@ public class SaiFuncionesServiceImpl implements ISaiFuncionesService{
 	}
 
 	@Override
-	public String sai_aplica_transaccion(Date fecha, Integer idusuario, String sesion, String referencia) {
-		return saiFuncionesDao.sai_procesa_transaccion(fecha,idusuario,sesion,referencia);
+	public String sai_aplica_transaccion(Integer idusuario, String sesion, String referencia) {
+		return saiFuncionesDao.sai_procesa_transaccion(idusuario,sesion,referencia);
 	}
 
 	@Override

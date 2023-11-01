@@ -24,7 +24,7 @@ import lombok.*;
 @Data
 public class Tabla implements Serializable {
 	@EmbeddedId
-    private TablasPK tablasPK;
+    private TablaPK tablasPK;
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "dato1")

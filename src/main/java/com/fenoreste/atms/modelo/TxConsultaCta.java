@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TxConsultaCta {
 	
-	private String idcajero;
+	private String idCajero;
 	private String fechaHora;
 	private String cuenta;
 	private Integer tipoCuenta;
