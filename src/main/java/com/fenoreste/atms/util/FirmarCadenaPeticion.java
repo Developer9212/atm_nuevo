@@ -22,6 +22,7 @@ import com.fenoreste.atms.entity.TablaPK;
 import com.fenoreste.atms.modelo.ObjetoFirma;
 import com.fenoreste.atms.modelo.TxDeposito;
 import com.fenoreste.atms.service.ITablaService;
+import com.github.cliftonlabs.json_simple.JsonObject;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +33,7 @@ public class FirmarCadenaPeticion {
 	@Autowired
 	private ITablaService tablasService;
  	
-	public ObjetoFirma firma(TxDeposito peticionDeposito) {
+	public ObjetoFirma objetoFirma(TxDeposito peticionDeposito) {
 		log.info("...........Formando testing 18/07/2023 objeto peticion para firma.........");
 		ObjetoFirma objetoFirma = new ObjetoFirma();
 		try {
@@ -54,6 +55,7 @@ public class FirmarCadenaPeticion {
 				//Firmamos la palabra secreta
 			    String firmaSecret = sign(tbSecret.getDato1());
 			    objetoFirma.setSecret(firmaSecret);
+			    
 			}
 		} catch (Exception e) {
 			log.info("...........Error al conseguir objeto para firmar con SSl.......");
@@ -79,8 +81,8 @@ public class FirmarCadenaPeticion {
 		     sB.append(objetoFirma.getSecret() == null ? "" : objetoFirma.getSecret()).append("||");
 		     
 		     String cadena = sB.toString();
+		     log.info("Cadena a firmar:"+cadena);
 		     firma = sign(cadena);		     
-		     log.info("Firma..........."+firma);
 		} catch (Exception e) {
 			log.info(".................Error al firmar peticion......."+e.getMessage());
 		}
@@ -92,12 +94,9 @@ public class FirmarCadenaPeticion {
         String firmaCod;
         //Direccion de mi keystore local
         String fileName = ruta() + "fenoreste.jks";
-        //String fileName = ruta() + "csn.jks";
-        String password = "1973.C00p.CSN" ;// "fenoreste2023";
+        String password = "1973.C00p.CSN" ;//Pruebas(fenoreste2023)
+        String alias = "1";//Pruebas(fenoreste)
         
-        //String password = "12345678";
-        String alias = "1";
-        //String alias = "fenoreste";//pruebas wilmer";
         try {
             String data = cadena;
             Signature firma = Signature.getInstance("SHA256withRSA");

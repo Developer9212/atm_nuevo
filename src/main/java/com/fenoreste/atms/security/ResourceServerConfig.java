@@ -22,7 +22,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception{
 		http
 		.anonymous().disable()
-		.authorizeRequests().antMatchers("/atms/**")		
+		.authorizeRequests().antMatchers("/api/**")		
 		.authenticated()
 		.and()
 		.exceptionHandling()

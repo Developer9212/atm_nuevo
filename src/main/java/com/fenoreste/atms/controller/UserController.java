@@ -16,7 +16,7 @@ import com.fenoreste.atms.entity.User;
 import com.fenoreste.atms.service.IUserService;
 
 @RestController
-@RequestMapping({"/api" })
+@RequestMapping({"/users" })
 public class UserController {
     
 	@Autowired
@@ -25,7 +25,7 @@ public class UserController {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@GetMapping("/users")
+	@GetMapping("/")
 	public ResponseEntity<?>obtnerUsuarios(){
 		List<User>users = userSevice.findAll();
 		if(users != null) {

@@ -31,7 +31,7 @@ import com.fenoreste.atms.util.FirmarCadenaPeticion;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("api")
+@RequestMapping("/api")
 @Slf4j
 public class ATMSController {
 	
@@ -44,7 +44,7 @@ public class ATMSController {
 	@Autowired
 	private ISaiFuncionesService saiFuncionesService;
 	
-	@RequestMapping(value = "detalleCuenta", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/detalleCuenta", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> informacionCuenta(@RequestBody TxConsultaCta request) {
 		if(saiFuncionesService.servicios_activos()){
 			return new ResponseEntity<>(service.DetallesCuenta(request), HttpStatus.OK);
@@ -56,13 +56,13 @@ public class ATMSController {
 
 	}
 	
-	@RequestMapping(value = "deposito", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deposito", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> depositoTX(@RequestBody TxDeposito request) {		
 		JsonObject json = new JsonObject();
-		ObjetoFirma objetoFirma = firmarCadena.firma(request);
+		ObjetoFirma objetoFirma = firmarCadena.objetoFirma(request);
 		String firma  = firmarCadena.firma(objetoFirma);
 		log.info(firma);
-		if(request.getFirma().equals(firma)) {		
+		if(request.getFirma().equals(firma.trim())) {		
 		if(saiFuncionesService.servicios_activos()){
 			Comprobante comprobante = service.depositoTX(request);
 			ModeloObjetoInformacionDeposito informacion = new ModeloObjetoInformacionDeposito();
