@@ -25,7 +25,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Pagos implements Serializable {   
+public class Pago implements Serializable {   
 
 	@Id
     @Column(name="idamortizacion")

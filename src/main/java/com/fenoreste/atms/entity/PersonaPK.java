@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonasPK implements Serializable{
+public class PersonaPK implements Serializable{
 	
 	private Integer idorigen;
 	private Integer idgrupo;

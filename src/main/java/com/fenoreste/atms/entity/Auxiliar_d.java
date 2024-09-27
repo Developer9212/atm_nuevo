@@ -9,13 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,18 +28,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Auxiliares_d{
+public class Auxiliar_d{
 
-    @Id
+    @EmbeddedId
+    private AuxiliarPK auxiliarPK;
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @Column(name="idorigenp")
-    private Integer idorigenp;
-    @Column(name="idproducto")
-    private Integer idproducto;
-    @Column(name="idauxiliar")
-    private Integer idauxiliar;
     @Column(name = "cargoabono")
     private Short cargoabono;
     @Column(name = "monto")

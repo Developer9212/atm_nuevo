@@ -31,7 +31,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class Origenes implements Serializable{
+public class Origen implements Serializable{
 
     @Id
     @Column(name = "idorigen")

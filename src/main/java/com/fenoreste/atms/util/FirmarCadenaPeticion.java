@@ -12,6 +12,7 @@ import java.security.SignatureException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPrivateKey;
+import java.text.DecimalFormat;
 import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +37,20 @@ public class FirmarCadenaPeticion {
 	public ObjetoFirma objetoFirma(TxDeposito peticionDeposito) {
 		log.info("...........Formando testing 18/07/2023 objeto peticion para firma.........");
 		ObjetoFirma objetoFirma = new ObjetoFirma();
+
 		try {
-			objetoFirma.setIdCajero(peticionDeposito.getIdCajero());
-			objetoFirma.setFechaHora(peticionDeposito.getFechaHora());
+
+			objetoFirma.setIdCajero(peticionDeposito.getIdCajero().trim());
+			objetoFirma.setFechaHora(peticionDeposito.getFechaHora().trim());
 			objetoFirma.setTipoTX(peticionDeposito.getTipoTX());
 			objetoFirma.setReferencia(peticionDeposito.getReferencia());
-			objetoFirma.setCuenta(peticionDeposito.getCuenta());
+			objetoFirma.setCuenta(peticionDeposito.getCuenta().trim());
 			objetoFirma.setSecuencia(peticionDeposito.getSecuencia());
 			objetoFirma.setMontoIngresado(peticionDeposito.getMontoIngresado());
 			objetoFirma.setMontoDepositado(peticionDeposito.getMontoDeposito());
 			objetoFirma.setMontoCambio(peticionDeposito.getMontoCambio());
+			
+			
 			
 			//Buscamos la tabla donde esta configurada la palabra secreta
 			TablaPK tb_pk = new TablaPK("cajero_receptor","secret");
@@ -53,12 +58,13 @@ public class FirmarCadenaPeticion {
 			
 			if(tbSecret != null) {
 				//Firmamos la palabra secreta
-			    String firmaSecret = sign(tbSecret.getDato1());
-			    objetoFirma.setSecret(firmaSecret);
+			    //String firmaSecret = sign(tbSecret.getDato1());
+			    //objetoFirma.setSecret(firmaSecret);
+				objetoFirma.setSecret(tbSecret.getDato1());
 			    
 			}
 		} catch (Exception e) {
-			log.info("...........Error al conseguir objeto para firmar con SSl.......");
+			log.error("...........Error al conseguir objeto para firmar con SSl.......");
 		}
 		return objetoFirma;
 	}
@@ -69,22 +75,25 @@ public class FirmarCadenaPeticion {
 		String firma = "";
 		StringBuilder sB = new StringBuilder();
 		try {
+			 DecimalFormat df = new DecimalFormat("0.00");
 			 sB.append(objetoFirma.getIdCajero()).append("|");
 		     sB.append(objetoFirma.getFechaHora() == null ? "" : objetoFirma.getFechaHora()).append("|");
-		     sB.append(objetoFirma.getTipoTX() == null ? "" : objetoFirma.getTipoTX()).append("||");
-		     sB.append(objetoFirma.getReferencia() == null ? "" : objetoFirma.getReferencia()).append("||");
-		     sB.append(objetoFirma.getCuenta() == null ? "" : objetoFirma.getCuenta()).append("||");
-		     sB.append(objetoFirma.getSecuencia() == null ? "" : objetoFirma.getSecuencia()).append("||");
-		     sB.append(objetoFirma.getMontoIngresado() == null ? "" : objetoFirma.getMontoIngresado()).append("||");
-		     sB.append(objetoFirma.getMontoDepositado() == null ? "" : objetoFirma.getMontoDepositado()).append("||");
-		     sB.append(objetoFirma.getMontoCambio() == null ? "" : objetoFirma.getMontoCambio()).append("||");
-		     sB.append(objetoFirma.getSecret() == null ? "" : objetoFirma.getSecret()).append("||");
+		     sB.append(objetoFirma.getTipoTX() == null ? "" : objetoFirma.getTipoTX()).append("|");
+		     sB.append(objetoFirma.getReferencia() == null ? "" : objetoFirma.getReferencia()).append("|");
+		     sB.append(objetoFirma.getCuenta() == null ? "" : objetoFirma.getCuenta()).append("|");
+		     sB.append(objetoFirma.getSecuencia() == null ? "" : objetoFirma.getSecuencia()).append("|");
+		     sB.append(objetoFirma.getMontoIngresado() == null ? "" : df.format(objetoFirma.getMontoIngresado())).append("|");// objetoFirma.getMontoIngresado()).append("|");
+		     sB.append(objetoFirma.getMontoDepositado() == null ? "" : df.format(objetoFirma.getMontoDepositado())).append("|");
+		     sB.append(objetoFirma.getMontoCambio() == null ? "" : df.format(objetoFirma.getMontoCambio())).append("|");
+		     sB.append(objetoFirma.getSecret() == null ? "" : objetoFirma.getSecret());
 		     
+		     log.info("Firmando la cadena:"+sB.toString());
+		     //idCajero|fechaHora|tipoTx|referencia|cuenta|secuencia|montoIngresado|montoDepositado|montoCambio||secret
 		     String cadena = sB.toString();
 		     log.info("Cadena a firmar:"+cadena);
 		     firma = sign(cadena);		     
 		} catch (Exception e) {
-			log.info(".................Error al firmar peticion......."+e.getMessage());
+			log.error(".................Error al firmar peticion......."+e.getMessage());
 		}
 		return firma;
 	}
@@ -93,9 +102,13 @@ public class FirmarCadenaPeticion {
     public String sign(String cadena) throws Exception {
         String firmaCod;
         //Direccion de mi keystore local
-        String fileName = ruta() + "fenoreste.jks";
-        String password = "1973.C00p.CSN" ;//Pruebas(fenoreste2023)
-        String alias = "1";//Pruebas(fenoreste)
+        
+        //Direccion de mi keystore local
+        TablaPK pkCertificado = new TablaPK("cajero_receptor", "datos_certificado");
+        Tabla  certificadoTabla = tablasService.buscarPorId(pkCertificado);
+        String fileName = ruta() + certificadoTabla.getDato1()+".jks";
+        String password = certificadoTabla.getDato3() ;// "1973.C00p.CSN" ;//Pruebas(fenoreste2023)
+        String alias = certificadoTabla.getDato2();//"1";//Pruebas(fenoreste)
         
         try {
             String data = cadena;
@@ -108,7 +121,7 @@ public class FirmarCadenaPeticion {
             firmaCod = encoder.encodeToString(firma.sign());
             ///System.out.println("Firma: " + firmaCod);
         } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException e) {
-        	log.info(".................Error al obtener jks........"+e.getMessage());
+        	log.error(".................Error al obtener jks........"+e.getMessage());
             throw new Exception("Exceptions" + e.getMessage(), e.getCause());
         }
         return firmaCod;
@@ -121,7 +134,7 @@ public class FirmarCadenaPeticion {
             keystore.load(new FileInputStream(keystoreFilename), password.toCharArray());
             privateKey = (RSAPrivateKey) keystore.getKey(alias, password.toCharArray());
         } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException | IOException | CertificateException ex) {
-            log.info(".........Error al obtener certificado.......");
+            log.error(".........Error al obtener certificado.......");
             throw new Exception("Exceptions" + ex.getMessage(), ex.getCause());
         }
         return privateKey;

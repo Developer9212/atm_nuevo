@@ -6,6 +6,7 @@
 package com.fenoreste.atms.entity;
 
 import java.io.Serializable;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,24 +24,18 @@ import lombok.Setter;
  */
 
 @Entity
-@Table(name = "estados")
-@NoArgsConstructor
+@Table(name = "paises")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 
-public class Estados implements Serializable {
-
-
+public class Pais implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idestado;
-    private String nombre;
-    private String ef;
     private Integer idpais;
-
-    private static final long serialVersionUID = 1L;
-        
+    private String nombre;
     
+    private static final long serialVersionUID = 1L;   
 }

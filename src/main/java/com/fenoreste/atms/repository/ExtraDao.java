@@ -7,7 +7,7 @@ import com.fenoreste.atms.entity.Auxiliar;
 
 
 
-public interface ExtraRepository extends CrudRepository<Auxiliar, Long> {
+public interface ExtraDao extends CrudRepository<Auxiliar, Long> {
 
 	@Query(value = "SELECT text(pg_backend_pid())||'-'||trim(to_char(now(),'ddmmyy'))" , nativeQuery = true)
 	String sesion();

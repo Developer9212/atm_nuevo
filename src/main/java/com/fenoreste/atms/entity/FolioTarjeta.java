@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class FoliosTarjeta implements Serializable {
+public class FolioTarjeta implements Serializable {
 
 	@Id
 	@Column(name = "idorigenp")

@@ -6,8 +6,6 @@
 package com.fenoreste.atms.entity;
 
 import java.io.Serializable;
-import java.math.BigInteger;
-import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,24 +23,24 @@ import lombok.Setter;
  */
 
 @Entity
-@Table(name = "municipios")
-@AllArgsConstructor
+@Table(name = "estados")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 
-public class Municipios implements Serializable {
+public class Estado implements Serializable {
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idmunicipio;
-    private String nombre;
     private Integer idestado;
-    private Integer poblacion;
-    private BigInteger localidad_siti;
-    private String de_cp;
-    private String a_cp;
-    
-    private static final long serialVersionUID = 1L;    
+    private String nombre;
+    private String ef;
+    private Integer idpais;
+
+    private static final long serialVersionUID = 1L;
+        
     
 }

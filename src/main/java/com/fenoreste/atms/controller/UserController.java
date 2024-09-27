@@ -1,12 +1,12 @@
 package com.fenoreste.atms.controller;
 
-import java.util.List;
+import java.util.Date;
+import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,30 +17,32 @@ import com.fenoreste.atms.service.IUserService;
 
 @RestController
 @RequestMapping({"/users" })
+@AllArgsConstructor
 public class UserController {
     
-	@Autowired
-	private IUserService userSevice;
-	
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-	@GetMapping("/")
-	public ResponseEntity<?>obtnerUsuarios(){
-		List<User>users = userSevice.findAll();
-		if(users != null) {
-			return new ResponseEntity<>(users,HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
+
+	private final IUserService userSevice;
+	private  final BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	
 	@PostMapping("/create_user")
-	public ResponseEntity<?>crearUsuario(@RequestBody User user){
+	public ResponseEntity<User>crearUsuario(@RequestBody User user){
+		String psw = user.getPassword();
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setId(1);
-		this.userSevice.save(user);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		user.setCreate_at(new Date());
+
+		Random random = new Random();
+		int value = random.nextInt(50 + 1) +1;
+		user.setId(value);
+		User newUser = userSevice.save(user);
+
+		if(newUser.getUsername().toUpperCase().contains("EXISTE")){
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}else{
+			newUser.setPassword(psw);
+			return new ResponseEntity<>(newUser,HttpStatus.CREATED);
+		}
+
 		
 	}
 	

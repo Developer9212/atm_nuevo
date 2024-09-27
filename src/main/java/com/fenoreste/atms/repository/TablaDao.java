@@ -1,7 +1,7 @@
 package com.fenoreste.atms.repository;
 
 import com.fenoreste.atms.entity.Auxiliar;
-import com.fenoreste.atms.entity.PersonasPK;
+import com.fenoreste.atms.entity.PersonaPK;
 import com.fenoreste.atms.entity.Tabla;
 import com.fenoreste.atms.entity.TablaPK;
 import org.springframework.data.jpa.repository.JpaRepository;

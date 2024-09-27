@@ -1,6 +1,6 @@
 package com.fenoreste.atms.service;
 
-import com.fenoreste.atms.entity.PersonasPK;
+import com.fenoreste.atms.entity.PersonaPK;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class AuxiliarServiceImpl implements IAuxiliarService{
 	}
 
 	@Override
-	public Auxiliar buscarPorOgsProducto(PersonasPK pk, Integer idProducto) {
+	public Auxiliar buscarPorOgsProducto(PersonaPK pk, Integer idProducto) {
 		return auxiliarDao.buscarPorIdProducto(pk.getIdorigen(),pk.getIdgrupo(),pk.getIdsocio(),idProducto);
 	}
 

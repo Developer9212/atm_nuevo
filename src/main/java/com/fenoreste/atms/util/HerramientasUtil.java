@@ -32,7 +32,7 @@ public class HerramientasUtil {
 				opa.setIdauxiliar(Integer.parseInt(productBankIdentifier.substring(11, 19)));
 			}	
 		} catch (Exception e) {
-			log.info(":::::::::::::Error al forma opa:::::::::::::::"+e.getMessage());
+			log.error(":::::::::::::Error al forma opa:::::::::::::::"+e.getMessage());
 		}
 		return opa;
 	}

@@ -21,6 +21,8 @@ public class MovimientoPK implements Serializable{
 	 private String sesion;
 	 @Column(name = "referencia")
 	 private String referencia;
+	 @Column(name = "n_mov")
+	 private Integer n_mov = 0;
 	 
 	 private static final long serialVersionUID = 1L;
 }

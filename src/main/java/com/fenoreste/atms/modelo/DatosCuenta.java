@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +19,9 @@ public class DatosCuenta {
 	private String DescripcionCuenta;
 	@JsonProperty("DetalleCuenta")
 	private String DetalleCuenta;
+	private BigDecimal montoProximoPago;
+	private BigDecimal minDeposito;
+	private BigDecimal maxDeposito;
 	@JsonProperty("CuentaDefault")
 	private String DefaultCuenta;
 	@JsonProperty("DescripcionCuentaDefault")
@@ -25,4 +30,6 @@ public class DatosCuenta {
 	private String CuentaCambio;
 	@JsonProperty("DescripcionCuentaCambio")
 	private String DescripcionCuentaCambio;	
+	private BigDecimal maxCambio;
+	
 }

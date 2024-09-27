@@ -33,7 +33,7 @@ import javax.persistence.TemporalType;
 public class Persona implements Serializable{
     
 	@EmbeddedId
-    private PersonasPK personasPK;    
+    private PersonaPK personasPK;    
     private String calle;
     private String numeroext;
     private String numeroint;
@@ -57,24 +57,16 @@ public class Persona implements Serializable{
     private Date fecharetiro;
     @Temporal(TemporalType.DATE)
     private Date fechaciudad;
-    private Short regimenMat;
     private String nombre;
-    private Short medioInf;
     private Integer requisitos;
     private String appaterno;
     private String apmaterno;
     private Short nacionalidad;
-    private Short gradoEstudios;
     private Short categoria;
     private String rfc;
     private String curp;
     private String email;
-    private String razonSocial;
-    private Integer causaBaja;
-    private Short nivelRiesgo;
     private String celular;
-    private Boolean rfcValido;
-    private Boolean curpValido;
     private Integer idcolonia;
      
     private static final long serialVersionUID = 1L;

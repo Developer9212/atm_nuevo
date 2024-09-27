@@ -30,11 +30,11 @@ public class RegistraMovimiento implements Serializable {
     @EmbeddedId
     private MovimientoPK pk;
 	@Column(name="idorigenp")
-	private Integer idorigenp;    
+	private Integer idorigenp = 0;    
 	@Column(name="idproducto")
-	private Integer idproducto;
+	private Integer idproducto = 0;
 	@Column(name = "idauxiliar")
-	private Integer idauxiliar;
+	private Integer idauxiliar= 0;
     @Column(name = "fecha")
     private Timestamp fecha;
     @Column(name = "idorigen")
