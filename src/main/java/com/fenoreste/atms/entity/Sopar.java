@@ -2,10 +2,7 @@ package com.fenoreste.atms.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,20 +18,10 @@ import lombok.Setter;
 
 public class Sopar implements Serializable {
 
-	@Id
-	@Column(name="idusuario")
-	private Integer idusuario;	
-	@Column(name="idorigen")
-	private Integer idorigen;
-	@Column(name="idgrupo")
-	private Integer idgrupo;
-	@Column(name="idsocio")
-	private Integer idsocio;
-	@Column(name="tipo")
-	private String tipo;
-	@Column(name="departamento")
+	@EmbeddedId
+	private SoparPk soparPk;
+	private Integer idusuario;
 	private String departamento;
-	@Column(name="puesto")
 	private String puesto;
 	
     private static final long serialVersionUID = 1L;	

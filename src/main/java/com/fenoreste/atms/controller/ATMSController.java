@@ -25,7 +25,7 @@ import com.fenoreste.atms.util.FirmarCadenaPeticion;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("atms/api")
+@RequestMapping("api")
 @Slf4j
 public class ATMSController {
 	

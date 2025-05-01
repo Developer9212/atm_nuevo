@@ -63,3 +63,8 @@ INSERT INTO tablas(idtabla,idelemento,dato1)VALUES('cajero_receptor','maximo_dep
 /*Ahorro patrimonial*/
 DELETE FROM tablas WHERE  idtabla='cajero_receptor' AND idelemento='ahorro_patrimonial';
 INSERT INTO tablas(idtabla,idelemento,dato1,dato2)VALUES('cajero_receptor','ahorro_patrimonial','110','Producto solo opera sobre multiplos de 500');
+
+
+/*Lista negra*/
+DELETE FROM tablas WHERE idtabla='cajero_receptor' AND idelemento='lista_negra';
+INSERT INTO tablas(idtabla,idelemento,nombre,dato2)VALUES('cajero_receptor','lista_negra','Bloqueo de personas mediante sopar','atms_lista_negra');
