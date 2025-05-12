@@ -314,7 +314,7 @@ public class ServiceGeneralSpring {
 
             //Validaciones para sopar entro el 01/05/2025 CSN
             if (origenService.origenMatriz().getIdorigen() == 30200) {
-                auxPk = new AuxiliarPK(opa.getIdorigenp(),opa.getIdproducto(),opa.getIdauxiliar());
+                auxPk = new AuxiliarPK(opa.getIdorigenp(), opa.getIdproducto(), opa.getIdauxiliar());
                 cuenta_depositar = auxiliarService.buscarPorOpa(auxPk);
                 PersonaPK personaPK = new PersonaPK(cuenta_depositar.getIdorigen(), cuenta_depositar.getIdgrupo(), cuenta_depositar.getIdsocio());
                 Persona persona = personaService.getPersona(personaPK);
@@ -328,7 +328,7 @@ public class ServiceGeneralSpring {
                 soparPk.setIdsocio(persona.getPersonasPK().getIdsocio());
                 soparPk.setTipo(tabla.getDato2());
                 Sopar sopar = soparService.bloqueoListaNegra(soparPk);
-                log.info(":::::pasa1::::::::::::::::::::::::::::::::"+sopar);
+                log.info(":::::pasa1::::::::::::::::::::::::::::::::" + sopar);
                 if (sopar != null) {
                     soparBandera = true;
                 }
@@ -420,6 +420,8 @@ public class ServiceGeneralSpring {
                             String[] validacion = new String[2];
                             if (origenService.origenMatriz().getIdorigen() == 30200) {
                                 validacion = validarReglasCsn(cuenta_depositar, objeto.getMontoDeposito(), objeto.getMontoCambio(), idUsuario);
+                            } else if (origenService.origenMatriz().getIdorigen() == 20700) {
+                                validacion = validarReglasSagrada(cuenta_depositar, objeto.getMontoDeposito(), objeto.getMontoCambio(), idUsuario);
                             } else {
                                 validacion[0] = "OK";
                                 validacion[1] = "200";
@@ -797,18 +799,8 @@ public class ServiceGeneralSpring {
                     }
                 }
 
-                boolean banderaMultiplo = true;
-                //Si es el producto 111 AHORRO PATRIMONIAL
-                tbPk = new TablaPK(idTabla, "ahorro_patrimonial");
-                Tabla ahorroPatrimonial = tablasService.buscarPorId(tbPk);
-                if (auxiliar.getAuxiliarPK().getIdproducto() == Integer.parseInt(ahorroPatrimonial.getDato1())) {
-                    Double multiplo = 500.00;
-                    if (monto % multiplo != 0) {
-                        banderaMultiplo = false;
-                    }
-                }
 
-                if (productoValido & banderaMultiplo) {
+                if (productoValido) {
                     tbPk = new TablaPK(idTabla, "maximo_operacion");
                     Tabla montos = tablasService.buscarPorId(tbPk);
                     if (monto <= Double.parseDouble(montos.getDato1())) {
@@ -877,14 +869,8 @@ public class ServiceGeneralSpring {
                         respuestaValidacion[1] = "400";
                     }
                 } else {
-                    if (banderaMultiplo == false) {
-                        respuestaValidacion[0] = "ASEGURATE QUE EL MONTO DEPOSITADO SEA MULTIPLO DE 500";
-                        respuestaValidacion[1] = "400";
-                    } else {
-                        respuestaValidacion[0] = "PRODUCTO NO PUEDE RECIBIR ABONOS";
-                        respuestaValidacion[1] = "400";
-                    }
-
+                    respuestaValidacion[0] = "PRODUCTO NO PUEDE RECIBIR ABONOS";
+                    respuestaValidacion[1] = "400";
                 }
             } else {
                 respuestaValidacion[0] = "NO EXISTE CONFIGURACION PARA ABONOS";
