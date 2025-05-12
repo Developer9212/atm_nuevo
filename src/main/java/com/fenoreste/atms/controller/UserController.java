@@ -16,7 +16,7 @@ import com.fenoreste.atms.entity.User;
 import com.fenoreste.atms.service.IUserService;
 
 @RestController
-@RequestMapping({"/atms/users" })
+@RequestMapping({"/users" })
 @AllArgsConstructor
 public class UserController {
     

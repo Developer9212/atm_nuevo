@@ -50,7 +50,7 @@ public class WebSecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/atms/token/","/atms/users/create_user/").permitAll() // Rutas públicas
+                .antMatchers("/atms/token","/users/create_user").permitAll() // Rutas públicas
                 .anyRequest().authenticated() // Cualquier otra ruta requiere autenticación
                 .and()
                 .sessionManagement()
