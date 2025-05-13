@@ -341,6 +341,7 @@ public class ServiceGeneralSpring {
                 soparBandera = false;
             }
 
+
             if (!soparBandera) {
                 tbPk = new TablaPK(idTabla, objeto.getIdCajero());
                 tabla = tablasService.buscarPorId(tbPk);
@@ -378,11 +379,11 @@ public class ServiceGeneralSpring {
 
                                         } else if (tb_producto_default.getDato2() != null || !tb_producto_default.getDato2().equals("")) {
                                             bandera_producto_default = true;
-                                            producto_default = Integer.parseInt(tb_producto_default.getDato2());
+                                            producto_default1 = Integer.parseInt(tb_producto_default.getDato2());
                                         }
 
                                         if (bandera_producto_default) {
-                                            if (opa.getIdproducto() == producto_default) {
+                                            if (opa.getIdproducto() == producto_default  || opa.getIdproducto() == producto_default1) {
                                                 auxPk = new AuxiliarPK();
                                                 auxPk.setIdorigenp(opa.getIdorigenp());
                                                 auxPk.setIdproducto(opa.getIdproducto());

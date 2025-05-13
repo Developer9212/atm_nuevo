@@ -31,6 +31,11 @@ DELETE FROM tablas WHERE idtabla='cajero_receptor' AND idelemento='datos_certifi
 INSERT INTO tablas(idtabla,idelemento,dato1,dato2,dato3)VALUES('cajero_receptor','datos_certificado','fenoreste','fenoreste','fenoreste2023');
 
 
+/*Datos calculo de comision por operacion dato1:montoComision,dato2:cuenta,dato3:ProductoParaCargoComision,dato4:onfirmaSiActivaComision 1 si 0 no*/
+DELETE FROM tablas WHERE idtabla='cajero_receptor' AND idelemento='comision';
+INSERT INTO tablas(idtabla,idelemento,dato1,dato2,dato3,dato4)VALUES('cajero_receptor','comision','5.00','453534543','110','1');
+
+
 
 
 
