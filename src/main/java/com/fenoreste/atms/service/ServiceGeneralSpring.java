@@ -315,7 +315,7 @@ public class ServiceGeneralSpring {
             TablaPK tbPk = null;
             Tabla tabla = null;
 
-            boolean soparBandera = false;
+            boolean soparBandera = true;
 
             //Validaciones para sopar entro el 01/05/2025 CSN
             if (origenService.origenMatriz().getIdorigen() == 30200) {
@@ -335,8 +335,10 @@ public class ServiceGeneralSpring {
                 Sopar sopar = soparService.bloqueoListaNegra(soparPk);
                 log.info(":::::pasa1::::::::::::::::::::::::::::::::" + sopar);
                 if (sopar != null) {
-                    soparBandera = true;
+                    soparBandera = false;
                 }
+            }else{
+                soparBandera = false;
             }
 
             if (!soparBandera) {

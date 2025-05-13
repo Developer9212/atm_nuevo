@@ -25,6 +25,11 @@ INSERT INTO tablas(idtabla,idelemento,dato1)VALUES('cajero_receptor','minimo_ope
 DELETE FROM tablas WHERE idtabla='cajero_receptor' AND idelemento='maximo_cambio';
 INSERT INTO tablas(idtabla,idelemento,dato1)VALUES('cajero_receptor','maximo_cambio','500');
 
+/*Datos para obtener el certificado para generar firma*/
+/*Dato1: Nombre JKS,Dato2:Alias de la JKS,Dato3:contraseña jks*/
+DELETE FROM tablas WHERE idtabla='cajero_receptor' AND idelemento='datos_certificado';
+INSERT INTO tablas(idtabla,idelemento,dato1,dato2,dato3)VALUES('cajero_receptor','datos_certificado','fenoreste','fenoreste','fenoreste2023');
+
 
 
 

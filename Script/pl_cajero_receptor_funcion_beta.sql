@@ -563,7 +563,7 @@ begin
   -- Poliza de Ingreso por primera vez si no existe o usa la del usuario "pingreso"
   i_idpoliza := 0;
   t_periodo  := to_char(date(p_fecha),'yyyymm');
-  t_llave_folio_poliza := 'POL'||t_periodo||trim(to_char(i_idorigen_ap,'099999'))||'1';
+  t_llave_folio_poliza := 'POL'||t_periodo||trim(to_char(i_origenapl,'099999'))||'1';
   if t_pingreso is not NULL and t_pingreso != '' then
     i_idpoliza := split_part(t_pingreso,'|',4)::integer;
   end if;
