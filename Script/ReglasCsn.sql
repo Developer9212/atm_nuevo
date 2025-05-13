@@ -33,6 +33,8 @@ INSERT INTO tablas(idtabla,idelemento,dato1,dato2,dato3,dato4)VALUES('cajero_rec
 DELETE FROM tablas WHERE idtabla='cajero_receptor' AND idelemento='iva_comision';
 INSERT INTO tablas(idtabla,idelemento,dato1,dato2)VALUES('cajero_receptor','iva_comision','453534543','16.00');
 
+/*act*/
+
 
 /*Maximo operacion*/
 DELETE FROM tablas WHERE idtabla='cajero_receptor' AND idelemento='maximo_operacion';
