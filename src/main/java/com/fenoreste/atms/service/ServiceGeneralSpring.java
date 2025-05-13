@@ -97,7 +97,7 @@ public class ServiceGeneralSpring {
                     PersonaPK personaPK = new PersonaPK(cuenta.getIdorigen(), cuenta.getIdgrupo(), cuenta.getIdsocio());
                     Persona persona = personaService.getPersona(personaPK);
 
-                    boolean soparBandera = false;
+                    boolean soparBandera = true;
 
                     //Validaciones para sopar entro el 01/05/2025 CSN
                     if (origenService.origenMatriz().getIdorigen() == 30200) {
@@ -111,8 +111,10 @@ public class ServiceGeneralSpring {
                         soparPk.setTipo(tabla.getDato2());
                         Sopar sopar = soparService.bloqueoListaNegra(soparPk);
                         if (sopar != null) {
-                            soparBandera = true;
+                            soparBandera = false;
                         }
+                    } else {
+                        soparBandera = false;
                     }
 
 
@@ -187,7 +189,8 @@ public class ServiceGeneralSpring {
                                         BigDecimal bdmip = bd;
                                         DatosCuenta.setMinDeposito(bdmip);
 
-                                    } else {
+                                    } else if (origenService.origenMatriz().getIdorigen() == 30200) {
+                                        //Validacion para CSN
                                         tbParamPK = new TablaPK(idTabla, "ahorro_patrimonial");
                                         tbParam = tablasService.buscarPorId(tbParamPK);
                                         if (cuenta.getAuxiliarPK().getIdproducto() == Integer.parseInt(tbParam.getDato1())) {
@@ -197,21 +200,23 @@ public class ServiceGeneralSpring {
 
 
                                     int producto_default = 0;
+                                    int producto_defaultOp = 0;
                                     Tabla tbProductoDefault = tablasService.buscarPorId(new TablaPK("cajero_receptor", "producto_default"));
                                     if (tbProductoDefault != null) {
                                         if (tbProductoDefault.getDato1() != null || !tbProductoDefault.getDato1().equals("")) {
                                             producto_default = Integer.parseInt(tbProductoDefault.getDato1());
 
-                                        } else if (tbProductoDefault.getDato2() != null || !tbProductoDefault.getDato2().equals("")) {
-                                            producto_default = Integer.parseInt(tbProductoDefault.getDato2());
+                                        }
+                                        if (tbProductoDefault.getDato2() != null || !tbProductoDefault.getDato2().equals("")) {
+                                            producto_defaultOp = Integer.parseInt(tbProductoDefault.getDato2());
 
-                                        } else {
-                                            informacion.setCodigo(409);
-                                            informacion.setMensaje("No existe configuracion para producto default");
-                                            log.error("...........Error al obtener configuracion producto default..........");
                                         }
                                     }
+
                                     Auxiliar productoDefault = auxiliarService.buscarPorOgsProducto(new PersonaPK(cuenta.getIdorigen(), cuenta.getIdgrupo(), cuenta.getIdsocio()), producto_default);
+                                    if (productoDefault == null) {
+                                        productoDefault = auxiliarService.buscarPorOgsProducto(new PersonaPK(cuenta.getIdorigen(), cuenta.getIdgrupo(), cuenta.getIdsocio()), producto_defaultOp);
+                                    }
                                     DatosCuenta.setDefaultCuenta(String.format("%06d", productoDefault.getAuxiliarPK().getIdorigenp()) + String.format("%05d", productoDefault.getAuxiliarPK().getIdproducto()) + String.format("%08d", productoDefault.getAuxiliarPK().getIdauxiliar()));
                                     Producto defaultP = productoService.buscarPorId(producto_default);
                                     DatosCuenta.setDescripcionCuentaDefault("******" + String.valueOf(productoDefault.getAuxiliarPK().getIdauxiliar()) + "-" + defaultP.getNombre() + "\nBeneficiario:\n" + formateaCadena(persona.getNombre() + " " + persona.getAppaterno() + " " + persona.getApmaterno()));
@@ -799,7 +804,6 @@ public class ServiceGeneralSpring {
                     }
                 }
 
-
                 if (productoValido) {
                     tbPk = new TablaPK(idTabla, "maximo_operacion");
                     Tabla montos = tablasService.buscarPorId(tbPk);
@@ -871,6 +875,7 @@ public class ServiceGeneralSpring {
                 } else {
                     respuestaValidacion[0] = "PRODUCTO NO PUEDE RECIBIR ABONOS";
                     respuestaValidacion[1] = "400";
+
                 }
             } else {
                 respuestaValidacion[0] = "NO EXISTE CONFIGURACION PARA ABONOS";
