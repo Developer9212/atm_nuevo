@@ -39,7 +39,7 @@ INSERT INTO tablas(idtabla,idelemento,dato1,dato2,dato3,dato4)VALUES('cajero_rec
 
 
 
-
+/*Actualizacion */
 
 
 /*Maximo diario*/
