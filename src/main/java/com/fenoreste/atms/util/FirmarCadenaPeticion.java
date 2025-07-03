@@ -97,35 +97,35 @@ public class FirmarCadenaPeticion {
 		}
 		return firma;
 	}
-	
+
 	//Leer datos Jks
-    public String sign(String cadena) throws Exception {
-        String firmaCod;
-        //Direccion de mi keystore local
-        
-        //Direccion de mi keystore local
-        TablaPK pkCertificado = new TablaPK("cajero_receptor", "datos_certificado");
-        Tabla  certificadoTabla = tablasService.buscarPorId(pkCertificado);
-        String fileName = ruta() + certificadoTabla.getDato1()+".jks";
-        String password = certificadoTabla.getDato3() ;// "1973.C00p.CSN" ;//Pruebas(fenoreste2023)
-        String alias = certificadoTabla.getDato2();//"1";//Pruebas(fenoreste)
-        
-        try {
-            String data = cadena;
-            Signature firma = Signature.getInstance("SHA256withRSA");
-            RSAPrivateKey llavePrivada = getCertified(fileName, password, alias);
-            firma.initSign(llavePrivada);
-            byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
-            firma.update(bytes, 0, bytes.length);
-            Base64.Encoder encoder = Base64.getEncoder();
-            firmaCod = encoder.encodeToString(firma.sign());
-            ///System.out.println("Firma: " + firmaCod);
-        } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException e) {
-        	log.error(".................Error al obtener jks........"+e.getMessage());
-            throw new Exception("Exceptions" + e.getMessage(), e.getCause());
-        }
-        return firmaCod;
-    }
+	public String sign(String cadena) throws Exception {
+		String firmaCod;
+		//Direccion de mi keystore local
+
+		//Direccion de mi keystore local
+		TablaPK pkCertificado = new TablaPK("cajero_receptor", "datos_certificado");
+		Tabla certificadoTabla = tablasService.buscarPorId(pkCertificado);
+		String fileName = ruta() + certificadoTabla.getDato1() + ".jks";
+		String password = certificadoTabla.getDato3();// "1973.C00p.CSN" ;//Pruebas(fenoreste2023)
+		String alias = certificadoTabla.getDato2();//"1";//Pruebas(fenoreste)
+
+		try {
+			String data = cadena;
+			Signature firma = Signature.getInstance("SHA256withRSA");
+			RSAPrivateKey llavePrivada = getCertified(fileName, password, alias);
+			firma.initSign(llavePrivada);
+			byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+			firma.update(bytes, 0, bytes.length);
+			Base64.Encoder encoder = Base64.getEncoder();
+			firmaCod = encoder.encodeToString(firma.sign());
+			///System.out.println("Firma: " + firmaCod);
+		} catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException e) {
+			log.error(".................Error al obtener jks........" + e.getMessage());
+			throw new Exception("Exceptions" + e.getMessage(), e.getCause());
+		}
+		return firmaCod;
+	}
 
     private RSAPrivateKey getCertified(String keystoreFilename, String password, String alias) throws Exception {
         RSAPrivateKey privateKey;

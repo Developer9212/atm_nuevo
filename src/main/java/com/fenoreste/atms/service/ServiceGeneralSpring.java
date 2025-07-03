@@ -333,7 +333,6 @@ public class ServiceGeneralSpring {
                 soparPk.setIdsocio(persona.getPersonasPK().getIdsocio());
                 soparPk.setTipo(tabla.getDato2());
                 Sopar sopar = soparService.bloqueoListaNegra(soparPk);
-                log.info(":::::pasa1::::::::::::::::::::::::::::::::" + sopar);
                 if (sopar != null) {
                     soparBandera = true;
                 }
@@ -566,12 +565,8 @@ public class ServiceGeneralSpring {
                                         String detalle = funcionesService.sai_detalle_transaccion_aplicada(new Date(), _movimiento.getPk().getIdusuario(), sesion, objeto.getReferencia());
                                         log.info("Detalle Transaccion aplicada:" + detalle);
                                         comprobante.setCodigo(200);
-                                        System.out.println("aun ");
                                         comprobante.setDescripcionCuenta(producto.getNombre());
-                                        System.out.println("yano");
-                                        System.out.println("yano");
                                         //Entra solo si fue un deposito de cambio
-                                        System.out.println("Si entrooooooooooooooooooooo34");
                                         comprobante.setMonto(objeto.getMontoDeposito());
                                         comprobante.setMontoNoDepositado(0.00);
 
@@ -605,7 +600,6 @@ public class ServiceGeneralSpring {
                                             mensageTx = "Monto de la transaccion:" + objeto.getMontoDeposito() + ",Fecha hora:" + new Date()
                                                     + ",Capital:" + objeto.getMontoDeposito();
                                         }
-                                        System.out.println("1234556");
                                         comprobante.setMensajeUsuario(mensageTx);
 
                                         Auxiliar_d ultimoMovimiento = auxiliarDService.ultimoMovimiento(cuenta_depositar.getAuxiliarPK());
