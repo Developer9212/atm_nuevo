@@ -97,7 +97,7 @@ public class ServiceGeneralSpring {
                     PersonaPK personaPK = new PersonaPK(cuenta.getIdorigen(), cuenta.getIdgrupo(), cuenta.getIdsocio());
                     Persona persona = personaService.getPersona(personaPK);
 
-                    boolean soparBandera = true;
+                    boolean soparBandera = false;
 
                     //Validaciones para sopar entro el 01/05/2025 CSN
                     if (origenService.origenMatriz().getIdorigen() == 30200) {
@@ -111,10 +111,8 @@ public class ServiceGeneralSpring {
                         soparPk.setTipo(tabla.getDato2());
                         Sopar sopar = soparService.bloqueoListaNegra(soparPk);
                         if (sopar != null) {
-                            soparBandera = false;
+                            soparBandera = true;
                         }
-                    } else {
-                        soparBandera = false;
                     }
 
 
@@ -817,36 +815,46 @@ public class ServiceGeneralSpring {
                                 String fecha = sdf.format(new Date());
                                 log.debug("Periodo hoy:" + fecha);
                                 tbPk = new TablaPK(idTabla, "maximo_deposito_mes");
+                                System.out.println(":::Maximo deposito mes::::");
                                 montos = tablasService.buscarPorId(tbPk);
+                                System.out.println("::::::::::::Maximo:"+montos);
                                 if ((monto + auxiliarDService.montoMensual(auxiliar.getAuxiliarPK(), fecha, idusuario)) <= Double.parseDouble(montos.getDato1())) {
+                                    System.out.println(":::Dentro::::");
                                     //Validamos el tipo de amortizacion
                                     if (auxiliar.getTipoamortizacion() == 5) {//Hipotecario
-                                        //Correoms sai_auxiliar
+                                        log.info(":::::::::::ES amortizacion 5");
+                                        //Corremos sai_auxiliar
                                         String sai_auxiliar = funcionesService.sai_auxiliar(auxiliar.getAuxiliarPK().getIdorigenp(), auxiliar.getAuxiliarPK().getIdproducto(), auxiliar.getAuxiliarPK().getIdauxiliar());
                                         String[] parametros_sai = sai_auxiliar.split("\\|");
                                         List lista_sai = Arrays.asList(parametros_sai);
+                                        log.info(":::::::Paso::::::::::::");
                                         //Obtenemos informacion a cerca del proximo pago
                                         sdf = new SimpleDateFormat("yyyy-MM-dd");
                                         Date fecha_sai = sdf.parse(lista_sai.get(10).toString());
+                                        log.info(":SDFDSF:ds");
                                         Origen matriz = origenService.origenMatriz();
-                                        String prestamoCuanto = funcionesService.sai_prestamo_cuanto(auxiliar.getAuxiliarPK().getIdorigenp(), auxiliar.getAuxiliarPK().getIdproducto(), auxiliar.getAuxiliarPK().getIdauxiliar(), fecha_sai, auxiliar.getTipoamortizacion().intValue(), sai_auxiliar);
-                                        String[] parametros_cuanto = prestamoCuanto.split("\\|");
-                                        List<String> lista_prestamo_cuanto = Arrays.asList(parametros_cuanto);
-                                        if (matriz.getFechatrabajo().compareTo(fecha_sai) <= 0) { //Fecha de trabajo menor a la fecha de proximo pago
-                                            String limite_adelanto = funcionesService.sai_limite_adelanto(auxiliar.getAuxiliarPK().getIdorigenp(), auxiliar.getAuxiliarPK().getIdproducto(), auxiliar.getAuxiliarPK().getIdauxiliar(), monto);
-                                            //Fecha trabajo mayor o igual a la fecha del proximo pago
-                                            if (monto == Double.parseDouble(limite_adelanto)) {
-                                                //Se deposito lo que se podia adelantar
-                                                respuestaValidacion[0] = "OK";
-                                                respuestaValidacion[1] = "200";
-                                            } else {
-                                                respuestaValidacion[0] = "PUEDE ABONAR HASTA:" + limite_adelanto;
-                                                respuestaValidacion[1] = "400";
-                                            }
-                                        }
+
+                                        String limite_adelanto = funcionesService.sai_limite_adelanto(auxiliar.getAuxiliarPK().getIdorigenp(), auxiliar.getAuxiliarPK().getIdproducto(), auxiliar.getAuxiliarPK().getIdauxiliar(), monto);
+                                            //if (matriz.getFechatrabajo().compareTo(fecha_sai) <= 0) { //Fecha de trabajo menor a la fecha de proximo pago
+                                                //log.info(":::::::::Debntrdfsd");
+
+                                                //Fecha trabajo mayor o igual a la fecha del proximo pago
+                                              //  log.info("::::::::::::::::limite adelanto:"+limite_adelanto);
+                                                if (monto == Double.parseDouble(limite_adelanto)) {
+                                                    //Se deposito lo que se podia adelantar
+                                                    respuestaValidacion[0] = "OK";
+                                                    respuestaValidacion[1] = "200";
+                                                } else {
+                                                    respuestaValidacion[0] = "PUEDE ABONAR HASTA:" + limite_adelanto;
+                                                    respuestaValidacion[1] = "400";
+                                                }
+                                            //}
+
                                     } else {
+                                        log.info("::::::::::Validacion buena");
                                         respuestaValidacion[0] = "OK";
                                         respuestaValidacion[1] = "200";
+                                        log.info("::::::::::::::Aquiiiiiiiiiiiiiiiiii");
                                     }
                                 } else {
                                     log.warn("..................Monto deposito mensual excede al permitido en el core.................");
@@ -879,7 +887,7 @@ public class ServiceGeneralSpring {
                 respuestaValidacion[1] = "400";
             }
         } catch (Exception e) {
-            log.error("Error al validar reglas CSN:" + e.getMessage());
+            log.error("Error al validar reglas sagrada familia:" + e.getMessage());
             e.printStackTrace();
         }
         return respuestaValidacion;
